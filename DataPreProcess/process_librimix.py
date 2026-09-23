@@ -33,8 +33,10 @@ def preprocess_one_dir(in_data_dir, out_dir, data_type, spk):
 
 def preprocess_librimix_audio(inp_args):
     """Create .json files for all conditions."""
-    speaker_list = ["mix_both", "s1", "s2"]
     for data_type in ["train-100", "dev", "test"]:
+        split_dir = os.path.join(inp_args.in_dir, data_type)
+        mix_dir = "mix_both" if os.path.isdir(os.path.join(split_dir, "mix_both")) else "mix_clean"
+        speaker_list = [mix_dir, "s1", "s2"]
         for spk in speaker_list:
             preprocess_one_dir(
                 inp_args.in_dir, inp_args.out_dir, data_type, spk,
